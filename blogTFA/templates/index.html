@@ -1,10 +1,67 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <h1>Hello, World!</h1>
-  </body>
-</html>
+{% extends "base.html" %}
+
+
+{% block head %}
+
+{% load static %}
+  <main class="site-main">
+    <section class="mb-30px">
+      <div class="container">
+        <div class="hero-banner" style="background-image: url('{% static "images/bg.jpg" %}">
+          <div class="hero-banner__content">
+            <a class="navbar-brand logo_h" href="#"><img src="{% static 'images/logo.png' %}" alt="Logo Fashion Adviser"></a>
+            <!-- <h1>Fashion Adviser</h1> -->
+            <!-- <h3>Personal Blog</h3> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="owl-carousel owl-theme blog-slider">
+          {% for post in object_list|slice:"0:4" %}
+          <div class="card blog__slide text-center">
+            <div class="blog__slide__img">
+              <img class="card-img rounded-0" src="{{ post.photo_url }}" style="height:230px; background-size: cover; background:center;" alt="Foto del post">
+            </div>
+            <div class="blog__slide__content">
+              <a class="blog__slide__label" href="#">{{ post.section_name}}</a>
+              <h3><a href="#">{{post.title}}</a></h3>
+              <p>{{ post.subtitle }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+        {% endblock %}
+
+
+    <section class="blog-post-area section-margin mt-4">
+      <div class="container">
+        <div class="row">
+            {% block content %}
+          <div class="col-lg-8">
+            {% for fpost in object_list|slice:"4:6" %}
+            <div class="single-recent-blog-post">
+              <div class="thumb">
+                <img class="img-fluid" style="height: 540px; width: 730px; object-fit: cover"src="{{ fpost.photo_url }}" alt="">
+                <ul class="thumb-info">
+                  <li><a href=""><i class="ti-user"></i>Angie Zcoln</a></li>
+                  <li><a href=""><i class="ti-notepad"></i>{{ fpost.post_timestamp }}</a></li>
+                  <li><a href=""><i class="ti-medall"></i>{{ fpost.section_name }}</a></li>
+                </ul>
+              </div>
+              <div class="details mt-20">
+                <a href="#">
+                  <h3>{{ fpost.title }}</h3>
+                </a>
+                <p>{{ fpost.subtitle }}</p>
+                <a class="button" href="#">Leer más <i class="ti-arrow-right"></i></a>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+          {% endblock %}
