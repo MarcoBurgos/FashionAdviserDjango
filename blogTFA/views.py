@@ -12,6 +12,12 @@ class IndexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['main_posts'] = Post.objects.filter(status='Published')[0:4]
-        context['feature_posts'] = Post.objects.filter(status='Published')[4:6]
+        posts = Post.objects.filter(status='PUBLISHED')
+        context['posts'] = posts
+        print(len(posts))
         return context
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post_detail.html'

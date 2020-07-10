@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 class Post(models.Model):
     FASHION = 'Fashion'
@@ -34,6 +35,21 @@ class Post(models.Model):
     status = models.CharField(max_length = 10, choices = STATUS_CHOICES,
                                                       default ='draft')
     slug = models.SlugField(max_length=255, null = True, blank = True, unique=True)
+
+
+    def save(self, *args, **kwargs):
+        original_slug = slugify(self.title)
+        queryset = Post.objects.all().filter(slug__iexact=original_slug).count()
+
+        count = 1
+        slug = original_slug
+        while(queryset):
+            slug = original_slug + '-' + str(count)
+            count += 1
+            queryset = Post.objects.all().filter(slug__iexact=slug).count()
+
+        self.slug = slug
+        super(Post, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title + " by " + str(self.author)
