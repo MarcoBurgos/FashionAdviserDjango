@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+{% load static %}
+
+  <section class="mb-30px">
+    <div class="container">
+      <div class="hero-banner hero-banner--sm" style="background-image: url(/static/images/{{category | lower}}.jpg); background-position-y: bottom;">
+        <div class="hero-banner__content">
+          <h1 style="font-family: bella_fashion_personal_useRg, cursive" >{{category}}</h1>
+          <nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'index'  %}">Inicio</a></li>
+              <li class="breadcrumb-item active" aria-current="page"> <a href="{% url 'category' category %}">{{category}}</a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endblock %}
+
+  <section class="blog-post-area section-margin">
+    <div class="container">
+      <div class="row">
+      {% block content %}
+        <div class="col-lg-8">
+          <div class="row">
+            {% for post in posts %}
+            <div class="col-md-6">
+              <div class="single-recent-blog-post card-view">
+                <div class="thumb">
+                  <img class="card-img rounded-0" style = "height: 233px; width: 350px; object-fit: cover" src="{{post.photo_url}}"  alt="Foto del post">
+                  <ul class="thumb-info">
+                    <li><a href="#"><i class="ti-user"></i>{{post.author}}</a></li>
+                  </ul>
+                </div>
+                <div class="details mt-20">
+                  <a href="#">
+                    <h3>{{post.title}}</h3>
+                  </a>
+                  <p>{{post.subtitle}}</p>
+                  <a class="button" href="#">Leer más <i class="ti-arrow-right"></i></a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+
+
+
+        </div>
+      {% endblock %}

@@ -27,7 +27,7 @@ class Post(models.Model):
     post_content = models.TextField()
     photo_url = models.CharField(max_length=512)
     post_timestamp = models.DateTimeField(auto_now_add=True)
-    section_name = models.CharField(
+    category_name = models.CharField(
        max_length=32,
        choices=SECTIONS,
        default=FASHION,
