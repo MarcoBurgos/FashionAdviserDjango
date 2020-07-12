@@ -21,11 +21,13 @@
           {% for post in page_obj|slice:"0:4" %}
           <div class="card blog__slide text-center">
             <div class="blog__slide__img">
-              <img class="card-img rounded-0" src="{{ post.photo_url }}" style="height:230px; background-size: cover; background:center;" alt="Foto del post">
+              <a href="{% url 'post-detail' post.category_name post.slug %}">
+                <img class="card-img rounded-0" src="{{ post.photo_url }}" style="height:230px; background-size: cover; background:center;" alt="Foto del post">
+              </a>
             </div>
             <div class="blog__slide__content">
-              <a class="blog__slide__label" href="{% url 'post-detail' post.slug %}">{{ post.section_name}}</a>
-              <h3><a href="#">{{post.title}}</a></h3>
+              <a class="blog__slide__label" href="{% url 'post-detail' post.category_name post.slug %}">{{ post.section_name}}</a>
+              <h3><a href="{% url 'post-detail' post.category_name post.slug %}">{{post.title}}</a></h3>
               <p>{{ post.subtitle }}</p>
             </div>
           </div>
@@ -45,7 +47,9 @@
             {% for fpost in page_obj|slice:"4:6" %}
             <div class="single-recent-blog-post">
               <div class="thumb">
+                <a href="{% url 'post-detail' fpost.category_name fpost.slug %}">
                 <img class="img-fluid" style="height: 540px; width: 730px; object-fit: cover"src="{{ fpost.photo_url }}" alt="">
+                </a>
                 <ul class="thumb-info">
                   <li><a href=""><i class="ti-user"></i>Angie Zcoln</a></li>
                   <li><a href=""><i class="ti-notepad"></i>{{ fpost.post_timestamp }}</a></li>
@@ -53,11 +57,11 @@
                 </ul>
               </div>
               <div class="details mt-20">
-                <a href="{% url 'post-detail' fpost.slug %}">
+                <a href="{% url 'post-detail' fpost.category_name fpost.slug %}">
                   <h3>{{ fpost.title }}</h3>
                 </a>
                 <p>{{ fpost.subtitle }}</p>
-                <a class="button" href="{% url 'post-detail' fpost.slug %}">Leer más <i class="ti-arrow-right"></i></a>
+                <a class="button" href="{% url 'post-detail' fpost.category_name fpost.slug %}">Leer más <i class="ti-arrow-right"></i></a>
               </div>
             </div>
             {% endfor %}
@@ -81,10 +85,6 @@
                             <li class="page-item"><a href="?page={{ page }}" class="page-link">{{ page}}</a></li>
                             {% endif  %}
                           {% endfor %}
-
-
-
-                          <!-- <li class="page-item"><a href="#" class="page-link">2</a></li> -->
                           {% if page_obj.has_next %}
                           <li class="page-item">
                               <a href="?page={{ page_obj.next_page_number }}" class="page-link" aria-label="Next">

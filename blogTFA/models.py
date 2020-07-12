@@ -26,6 +26,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     post_content = models.TextField()
     photo_url = models.CharField(max_length=512)
+    carousel_urls = models.TextField(null = True, blank = True)
     post_timestamp = models.DateTimeField(auto_now_add=True)
     category_name = models.CharField(
        max_length=32,
