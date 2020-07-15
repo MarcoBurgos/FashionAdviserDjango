@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdmin
 from .models import Post
 
 
@@ -19,5 +20,7 @@ class PostAdmin(admin.ModelAdmin):
     list_editable =('status',)
     list_filter = ('status',)
     actions = [make_published, make_drafted]
+    # summernote_fields = ('post_content',)
+
 
 admin.site.register(Post, PostAdmin)

@@ -11,6 +11,7 @@
 
   <title>The Fashion Adviser</title>
   {% load static %}
+  {% load instagram_client %}
 	<link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
 
   <link rel="stylesheet" href="{% static 'vendors/bootstrap/bootstrap.min.css' %}">
@@ -89,6 +90,22 @@
 
           <div class="col-lg-4 sidebar-widgets">
               <div class="widget-wrap">
+
+                <div class="single-sidebar-widget post-category-widget">
+                  <h4 class="single-sidebar-widget__title">The Fashion Adviser en Instagram</h4>
+                  <ul class="auto-grid">
+                    {% instagram_user_recent_media instagram_profile_name %}
+                    {% for media in recent_media %}
+                    <li>
+                      <a href="//instagram.com/p/{{ media.shortcode }}" target="_blank">
+                        <img class="zoom" style='width: 100px; height: 100px' src="{{ media.thumbnail_src }}" alt="Instagram photo">
+                      </a>
+                    </li>
+                    {%endfor%}
+                  </ul>
+
+                </div>
+
                 <div class="single-sidebar-widget newsletter-widget">
                   <h4 class="single-sidebar-widget__title">Newsletter</h4>
                   <div class="form-group mt-30">
