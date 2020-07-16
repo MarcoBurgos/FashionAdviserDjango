@@ -1,0 +1,17 @@
+asgiref==3.2.10
+certifi==2020.6.20
+chardet==3.0.4
+Django==3.0.8
+django-instagram==0.3.1
+django-summernote==0.8.11.6
+gunicorn==20.0.4
+idna==2.10
+lxml==4.5.2
+Pillow==7.2.0
+psycopg2==2.8.5
+pytz==2020.1
+requests==2.24.0
+sorl-thumbnail==12.6.3
+sqlparse==0.3.1
+urllib3==1.25.9
+whitenoise==5.1.0
