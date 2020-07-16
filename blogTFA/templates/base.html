@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
 
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   {% block bootstrap_css %}
 
@@ -54,7 +55,7 @@
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav justify-content-center">
                 {% if category %}
-                <li class="nav-item "><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
+                <li class="nav-item "><a id="link" class="nav-link" href="{% url 'index' %}">Inicio</a></li>
                 {% else %}
                 <li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">Inicio</a></li>
                 {% endif %}
@@ -62,7 +63,7 @@
                 {% if category == key %}
                 <li class="nav-item active"><a  class="nav-link" href="{% url 'category' key %}">{{ key }}</a></li>
                 {% else %}
-               <li class="nav-item"><a  class="nav-link" href="{% url 'category' key %}">{{ key }}</a></li>
+               <li class="nav-item"><a  id="link" class="nav-link" href="{% url 'category' key %}">{{ key }}</a></li>
                {% endif %}
 
               {% endfor %}
@@ -107,14 +108,21 @@
                 </div>
 
                 <div class="single-sidebar-widget newsletter-widget">
-                  <h4 class="single-sidebar-widget__title">Newsletter</h4>
+                  <h4 class="single-sidebar-widget__title">Boletín</h4>
                   <div class="form-group mt-30">
                     <div class="col-autos">
-                      <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"
-                        onblur="this.placeholder = 'Ingresa tu correo electrónico'">
+                      <form id="target">
+                         {% csrf_token %}
+                        <p style="text-align:left">Mantente informado con el mejor contenido de The Fashion Adviser, directo a tu bandeja de correo electrónico</p>
+                          {{ email_form}}
+                        <!-- <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"
+                          onblur="this.placeholder = 'Ingresa tu correo electrónico'"> -->
+                          <button style="margin-top: 1rem" id="btnSuscribe" class="bbtns d-block mt-20 w-100">Suscríbete</button>
+                      </form>
                     </div>
+
                   </div>
-                  <button class="bbtns d-block mt-20 w-100">Boletín</button>
+
                 </div>
 
 
@@ -125,7 +133,6 @@
                     <li>
                       <a href="{% url 'category' key %}" class="d-flex justify-content-between">
                         <p>{{key}}</p>
-                        <p>{{value}}</p>
                       </a>
                     </li>
                     {% endfor %}
@@ -137,7 +144,7 @@
         </div>
     </section>
 
-  <footer class="footer-area section-padding">
+  <footer style="padding: 50px" class="footer-area section-padding">
     <div class="container">
       <div class="row">
         <div class="col-lg-6  col-md-6 col-sm-6">
@@ -154,42 +161,31 @@
             <p>Mantente informado</p>
             <div class="" id="mc_embed_signup">
 
-              <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                method="get" class="form-inline">
-
+              <form  id="target"
+              class="form-inline">
+                 {% csrf_token %}
                 <div class="d-flex flex-row">
 
-                  <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-                    required="" type="email">
+                  <!-- <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
+                    required="" type="email"> -->
+                    {{ email_form}}
 
-
-                  <button class="click-btn btn btn-default"><span class="lnr lnr-arrow-right"></span></button>
+                  <button id="btnSuscribe" class="click-btn btn btn-default"><span class="lnr lnr-arrow-right"></span></button>
                   <div style="position: absolute; left: -5000px;">
                     <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
                   </div>
 
-                  <!-- <div class="col-lg-4 col-md-4">
-                        <button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-                      </div>  -->
                 </div>
                 <div class="info"></div>
               </form>
             </div>
           </div>
         </div>
-        <!-- <div class="col-lg-3  col-md-6 col-sm-6">
-          <div class="single-footer-widget mail-chimp">
-            <h6 class="mb-20">Instragram Feed</h6>
-            <ul class="instafeed d-flex flex-wrap">
-              <li><img src="img/instagram/i1.jpg" alt=""></li>
 
-            </ul>
-          </div>
-        </div> -->
         <div class="col-lg-2 col-md-6 col-sm-6">
           <div class="single-footer-widget">
             <h6>Sígueme</h6>
-            <p>En mis redes sociales</p>
+            <p>Mis redes sociales</p>
             <div class="footer-social d-flex align-items-center">
               <a href="https://www.facebook.com/TheFashionAdviser.AngieZcoln/">
                 <i class="fab fa-facebook-f"></i>
@@ -202,9 +198,8 @@
         </div>
       </div>
       <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-        <p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+        <p class="footer-text m-0">
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
         <a style="margin-left:15px; color: #ff9906" href="#"><i class="fa fa-id-badge footer-text m-0"></i></a>
       </div>
     </div>
@@ -213,8 +208,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <script src="{% static 'vendors/jquery/jquery-3.2.1.min.js' %}"></script>
   <script src="{% static 'vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
-  <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
-  <script src="{% static 'js/mail-script.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
 
   {% block bootstrap_js %}

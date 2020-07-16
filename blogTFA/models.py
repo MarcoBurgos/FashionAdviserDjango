@@ -57,3 +57,9 @@ class Post(models.Model):
 
     class Meta:
        ordering = ('-post_timestamp', )
+
+class Subscribers(models.Model):
+    email = models.EmailField(max_length = 128, unique=True)
+
+    def __str__(self):
+        return self.email

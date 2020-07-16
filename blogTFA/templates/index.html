@@ -8,7 +8,7 @@
       <div class="container">
         <div class="hero-banner" style="background-image: url({% static 'images/bg.jpg' %})">
           <div class="hero-banner__content">
-            <a class="navbar-brand logo_h" href="#"><img src="{% static 'images/logo.png' %}" alt="Logo Fashion Adviser"></a>
+            <a class="navbar-brand logo_h" href="#"><img id="logoTFA" src="{% static 'images/logo.png' %}" alt="Logo Fashion Adviser"></a>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
                 <img class="img-fluid" style="height: 540px; width: 730px; object-fit: cover"src="{{ fpost.photo_url }}" alt="">
                 </a>
                 <ul class="thumb-info">
-                  <li><a href=""><i class="ti-user"></i>Angie Zcoln</a></li>
+                  <li><a href=""><i class="ti-user"></i>{{fpost.author}}</a></li>
                   <li><a href=""><i class="ti-notepad"></i>{{ fpost.post_timestamp }}</a></li>
                   <li><a href=""><i class="ti-medall"></i>{{ fpost.section_name }}</a></li>
                 </ul>

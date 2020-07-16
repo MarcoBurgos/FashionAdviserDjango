@@ -1,8 +1,10 @@
 from django.views.generic import ListView, DetailView
+from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
-from .models import Post
+from .models import Post, Subscribers
+from . import forms
 from django.db.models import Count
 import pprint
 
@@ -18,9 +20,12 @@ class IndexView(ListView):
     queryset = Post.objects.filter(status='PUBLISHED')
 
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['count'] = counts
+        email_form = forms.EmailForm()
+        context['email_form']= email_form
         del context['post_list']
         pp = pprint.PrettyPrinter(indent=4)
         pp.pprint(context)
@@ -31,12 +36,13 @@ class CategoryView(ListView):
     template_name = 'category.html'
 
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category= self.kwargs['category'].capitalize()
         context['category'] = category
         context['count'] = counts
+        email_form = forms.EmailForm()
+        context['email_form']= email_form
 
         posts = Post.objects.filter(status='PUBLISHED', category_name=category)
         paginator = Paginator(posts, per_page=4)
@@ -71,9 +77,32 @@ class PostDetailView(DetailView):
         if post[0].carousel_urls:
             urls = post[0].carousel_urls.split(",")
             context['urls'] = urls
-            
+
         context['post'] = post
         context['count'] = counts
+        email_form = forms.EmailForm()
+        context['email_form']= email_form
         pp = pprint.PrettyPrinter(indent=4)
         pp.pprint(context)
         return context
+
+
+def ajax_call(request):
+    print(f"inside ajax call")
+    if request.method == 'GET':
+        email = request.GET.get('email', None)
+        data = {
+             'is_there': Subscribers.objects.filter(email__exact=email).exists()
+         }
+        if data['is_there']:
+            data['error_message'] = 'El correo ya está registrado'
+
+        else:
+            record = Subscribers(email=email)
+            record.save()
+            data['success_message'] = 'Mail agregado.'
+
+
+        print(str(data))
+
+        return JsonResponse(data)

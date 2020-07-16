@@ -69,9 +69,38 @@ $(function() {
   }
 
   //------- mailchimp --------//
-	function mailChimp() {
-		$('#mc_embed_signup').find('form').ajaxChimp();
-	}
-  mailChimp();
+	// function mailChimp() {
+	// 	$('#mc_embed_signup').find('form').ajaxChimp();
+	// }
+  // mailChimp();
 
+});
+
+$(document).ready(function() {
+  $("#target").submit(function( event ) {
+    var emailFormForm = $("#email").val();
+    
+
+      $.ajax({
+        type:"GET",
+        url: '/callback/forms/ajax_call/',
+        data: {
+         'email': emailFormForm
+       },
+       success: function(data) {
+         if (data.is_there) {
+           swal("Ya estás dentro", "El correo que ingresaste ya está en nuestra base de datos", "info");
+
+         }
+         else {
+           swal("Bienvenida/o", "Tu correo quedó registrado para recibir nuestro boletín", "success");
+         }
+       },
+
+      dataType: 'json',
+      });
+
+
+    event.preventDefault();
+  });
 });
