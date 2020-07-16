@@ -78,18 +78,18 @@ WSGI_APPLICATION = 'tfa_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-# 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'tfa_db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'admin2124',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
 #
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tfa_db',
+        'USER': 'cdegwndvhdskim',
+        'PASSWORD': 'admin2124',
+        'HOST': 'ec2-18-214-119-135.compute-1.amazonaws.com',
+        'PORT': '5432',
+
+    }
+}
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
 
