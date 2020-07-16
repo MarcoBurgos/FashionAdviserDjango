@@ -27,7 +27,7 @@ SECRET_KEY = 'f05^3sthnpk9ci63iphxy$v7o1=kn9zuxq@b)&n@^cu$-z*r6k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['the-fashion-adviser-stgg.herokuapp.com', '127.0.0.1:8000']
+ALLOWED_HOSTS = ['the-fashion-adviser-stgg.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
