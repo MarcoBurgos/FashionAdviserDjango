@@ -8,14 +8,15 @@ from . import forms
 from django.db.models import Count
 import pprint
 
-
-try:
-    count = Post.objects.all().filter(status='PUBLISHED').values('category_name').annotate(total=Count('category_name')).order_by('-total')
-    counts = dict()
-    for item in count:
-        counts[item['category_name']] = item['total']
-except Exception as e:
-    print(f"there was an error {e}") 
+def get_count():
+    try:
+        count = Post.objects.all().filter(status='PUBLISHED').values('category_name').annotate(total=Count('category_name')).order_by('-total')
+        counts = dict()
+        for item in count:
+            counts[item['category_name']] = item['total']
+    except Exception as e:
+        print(f"there was an error {e}")
+    return counts
 
 
 class IndexView(ListView):
@@ -28,7 +29,7 @@ class IndexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['count'] = counts
+        context['count'] = get_count()
         email_form = forms.EmailForm()
         context['email_form']= email_form
         del context['post_list']
@@ -45,7 +46,7 @@ class CategoryView(ListView):
         context = super().get_context_data(**kwargs)
         category= self.kwargs['category'].capitalize()
         context['category'] = category
-        context['count'] = counts
+        context['count'] = get_count()
         email_form = forms.EmailForm()
         context['email_form']= email_form
 
@@ -84,7 +85,7 @@ class PostDetailView(DetailView):
             context['urls'] = urls
 
         context['post'] = post
-        context['count'] = counts
+        context['count'] = get_count()
         email_form = forms.EmailForm()
         context['email_form']= email_form
         pp = pprint.PrettyPrinter(indent=4)
