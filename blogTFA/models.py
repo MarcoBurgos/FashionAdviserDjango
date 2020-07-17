@@ -61,5 +61,8 @@ class Post(models.Model):
 class Subscribers(models.Model):
     email = models.EmailField(max_length = 128, unique=True)
 
+    class Meta:
+       ordering = ('email', )
+
     def __str__(self):
         return self.email
