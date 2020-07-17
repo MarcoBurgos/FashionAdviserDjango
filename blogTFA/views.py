@@ -8,10 +8,15 @@ from . import forms
 from django.db.models import Count
 import pprint
 
-count = Post.objects.all().filter(status='PUBLISHED').values('category_name').annotate(total=Count('category_name')).order_by('-total')
-counts = dict()
-for item in count:
-    counts[item['category_name']] = item['total']
+
+try:
+    count = Post.objects.all().filter(status='PUBLISHED').values('category_name').annotate(total=Count('category_name')).order_by('-total')
+    counts = dict()
+    for item in count:
+        counts[item['category_name']] = item['total']
+except Exception as e:
+    print(f"there was an error {e}") 
+
 
 class IndexView(ListView):
     model = Post
