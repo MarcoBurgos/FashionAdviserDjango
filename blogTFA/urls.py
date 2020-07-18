@@ -7,9 +7,9 @@ from blogTFA import views
 
 urlpatterns = [
     # path('', views.index, name="index"),
-    path('', IndexView.as_view(extra_context={"instagram_profile_name": "the.fashion.adviser"}), name="index"),
-    path('<str:category>/', CategoryView.as_view(extra_context={"instagram_profile_name": "the.fashion.adviser"}), name='category'),
-    path('<str:category>/<slug:slug>/', PostDetailView.as_view(extra_context={"instagram_profile_name": "the.fashion.adviser"}), name='post-detail'),
+    path('', IndexView.as_view(), name="index"),
+    path('<str:category>/', CategoryView.as_view(), name='category'),
+    path('<str:category>/<slug:slug>/', PostDetailView.as_view(), name='post-detail'),
     path('summernote/', include('django_summernote.urls')),
     path('callback/forms/ajax_call/', views.ajax_call, name='ajax_call'),
 ]

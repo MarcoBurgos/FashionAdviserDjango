@@ -96,10 +96,10 @@
                   <h4 class="single-sidebar-widget__title">The Fashion Adviser en Instagram</h4>
                   <ul class="auto-grid">
                     {% instagram_user_recent_media instagram_profile_name %}
-                    {% for media in recent_media %}
+                    {% for media in photos %}
                     <li>
                       <a href="//instagram.com/p/{{ media.shortcode }}" target="_blank">
-                        <img class="zoom" style='width: 100px; height: 100px' src="{{ media.thumbnail_src }}" alt="Instagram photo">
+                        <img class="zoom" style='width: 100px; height: 100px' src="{{ media.display_url }}" alt="Instagram photo">
                       </a>
                     </li>
                     {%endfor%}

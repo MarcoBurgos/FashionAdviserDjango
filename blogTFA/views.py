@@ -7,6 +7,7 @@ from .models import Post, Subscribers
 from . import forms
 from django.db.models import Count
 import pprint
+import json, re, requests
 
 def get_count():
     try:
@@ -17,6 +18,34 @@ def get_count():
     except Exception as e:
         print(f"there was an error {e}")
     return counts
+
+
+def fetch_media():
+    user = 'the.fashion.adviser'
+    profile = 'https://www.instagram.com/' + user
+    photos_from_instagram = []
+
+    with requests.session() as s:
+        s.headers['user-agent'] = 'Mozilla/5.0'
+
+        end_cursor = ''
+        for count in range(1, 2):
+            print('PAGE: ', count)
+
+            r    = s.get(profile, params={'max_id': end_cursor})
+            data = re.search(
+                r'window._sharedData = (\{.+?});</script>', r.text).group(1)
+
+            j = json.loads(data)
+            media = j['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges']
+
+            for node in media:
+                values = dict()
+                values['display_url'] = node['node']['display_url']
+                values['shortcode'] = node['node']['shortcode']
+                photos_from_instagram.append(values)
+
+    return photos_from_instagram
 
 
 class IndexView(ListView):
@@ -30,6 +59,7 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['count'] = get_count()
+        context['photos'] = fetch_media()
         email_form = forms.EmailForm()
         context['email_form']= email_form
         del context['post_list']
@@ -46,6 +76,7 @@ class CategoryView(ListView):
         context = super().get_context_data(**kwargs)
         category= self.kwargs['category'].capitalize()
         context['category'] = category
+        context['photos'] = fetch_media()
         context['count'] = get_count()
         email_form = forms.EmailForm()
         context['email_form']= email_form
@@ -85,6 +116,7 @@ class PostDetailView(DetailView):
             context['urls'] = urls
 
         context['post'] = post
+        context['photos'] = fetch_media()
         context['count'] = get_count()
         email_form = forms.EmailForm()
         context['email_form']= email_form
