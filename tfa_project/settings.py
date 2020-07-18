@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'f05^3sthnpk9ci63iphxy$v7o1=kn9zuxq@b)&n@^cu$-z*r6k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['the-fashion-adviser-stgg.herokuapp.com', '127.0.0.1']
 
@@ -98,13 +98,13 @@ DATABASES = {
 #     }
 # }
 
-# import dj_database_url
-# from decouple import config
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL')
-#     )
-# }
+import dj_database_url
+from decouple import config
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
+}
 
 
 # Password validation
