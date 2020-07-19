@@ -66,3 +66,14 @@ class Subscribers(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class InstagramMedia(models.Model):
+    display_url = models.TextField()
+    shortcode = models.TextField()
+
+    class Meta:
+       ordering = ('-id', )
+
+    def __str__(self):
+        return self.shortcode

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Post, Subscribers
+from .models import Post, Subscribers, InstagramMedia
 
 
 def make_published(modeladmin, request, queryset):
@@ -22,6 +22,10 @@ class PostAdmin(admin.ModelAdmin):
     actions = [make_published, make_drafted]
     # summernote_fields = ('post_content',)
 
+class InstagramMediaAdmin(admin.ModelAdmin):
+    list_display = ('id', 'shortcode')
+
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Subscribers)
+admin.site.register(InstagramMedia, InstagramMediaAdmin)
