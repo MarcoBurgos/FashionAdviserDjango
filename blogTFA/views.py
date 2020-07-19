@@ -37,13 +37,20 @@ def fetch_media():
                 r'window._sharedData = (\{.+?});</script>', r.text).group(1)
 
             j = json.loads(data)
-            media = j['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges']
 
-            for node in media:
-                values = dict()
-                values['display_url'] = node['node']['display_url']
-                values['shortcode'] = node['node']['shortcode']
-                photos_from_instagram.append(values)
+            try:
+                media = j['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges']
+
+                for node in media:
+                    values = dict()
+                    values['display_url'] = node['node']['display_url']
+                    values['shortcode'] = node['node']['shortcode']
+                    photos_from_instagram.append(values)
+            except Exception as e:
+                f = open("logs.txt", "w")
+                f.write(data)
+                f.close()
+
 
     return photos_from_instagram
 

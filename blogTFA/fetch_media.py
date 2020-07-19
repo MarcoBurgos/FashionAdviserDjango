@@ -16,6 +16,7 @@ with requests.session() as s:
             r'window._sharedData = (\{.+?});</script>', r.text).group(1)
 
         j = json.loads(data)
+        
         media = j['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges']
 
         for node in media:
