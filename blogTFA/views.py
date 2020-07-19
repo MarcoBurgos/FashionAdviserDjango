@@ -47,11 +47,7 @@ def fetch_media():
                     values['shortcode'] = node['node']['shortcode']
                     photos_from_instagram.append(values)
             except Exception as e:
-                BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                path = os.path.join(BASE_DIR, 'blogTFA/')
-                f = open(path +"logs.txt", "w")
-                f.write(data)
-                f.close()
+                print(data)
 
 
     return photos_from_instagram
