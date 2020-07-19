@@ -150,5 +150,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'blogTFA/static/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
