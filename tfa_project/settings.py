@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import psycopg2
+import dj_database_url
+from decouple import config
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'f05^3sthnpk9ci63iphxy$v7o1=kn9zuxq@b)&n@^cu$-z*r6k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['the-fashion-adviser-stgg.herokuapp.com', '127.0.0.1']
 
@@ -79,17 +81,25 @@ WSGI_APPLICATION = 'tfa_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 #
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tfa_db',
-        'USER': 'postgres',
-        'PASSWORD': 'admin2124',
-        'HOST': 'localhost',
-        'PORT': '5432',
 
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'tfa_db',
+            'USER': 'postgres',
+            'PASSWORD': 'admin2124',
+            'HOST': 'localhost',
+            'PORT': '5432',
+
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL')
+        )
+    }
 
 # DATABASES = {
 #     'default': {
@@ -98,13 +108,7 @@ DATABASES = {
 #     }
 # }
 
-import dj_database_url
-from decouple import config
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
-}
+
 
 
 # Password validation
